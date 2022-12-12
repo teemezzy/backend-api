@@ -1,4 +1,4 @@
-# eGator-face-id
+# Face-id
 eGator financeverification system
 ## Running the development environment
 
@@ -7,7 +7,7 @@ eGator financeverification system
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/eGator-finance/eGator-verification-system
+git clone https://github.com/teemezzy/backend-api
 ```
 
 ### 2. Build the docker image
