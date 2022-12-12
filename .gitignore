@@ -1,0 +1,6 @@
+__pycache__
+venv
+.env
+.DS_Store
+egator-verification-system-cloud-sql-key.json
+staging.docker-compose.yml

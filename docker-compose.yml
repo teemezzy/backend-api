@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  backend:
+    depends_on:
+      - postgres
+    environment:
+      ENVIRONMENT: "local"
+      DASHBOARD_HOST: "http://localhost:3000"
+      JWT_SECRET_KEY: "ktUTtpqNoKVLKoATO45v8gxmyK_MBMOqFbVpCqTbqKk="
+      ENCODING_KEY: "snEaUSiYRF34ywxF7BAaD4fpZfasQSZkDd3Qjj_TomI="
+      POSTGRES_SERVER: "postgres"
+      POSTGRES_USER: "egator"
+      POSTGRES_PASSWORD: "egator"
+      POSTGRES_DB: "egator"
+      POSTGRES_INSTANCE_NAME: "egator"
+      GOOGLE_APPLICATION_CREDENTIALS: "/app/credentials.json"
+      LOG_LEVEL: "info"
+      FIRST_USER_EMAIL: "superuserdeveloper@test.com"
+      FIRST_USER_PASSWORD: "superuserdeveloper"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - ENVIRONMENT=local
+    command: ./start-reload.sh
+
+  postgres:
+    image: postgres:13-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: egator
+      POSTGRES_USER: egator
+    volumes:
+      - postgresql:/var/lib/postgresql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:5050"
+    environment:
+      PGADMIN_LISTEN_PORT: 5050
+      POSTGRES_SERVER: "postgres"
+      POSTGRES_USER: "egator"
+      POSTGRES_PASSWORD: "egator"
+      POSTGRES_DB: "egator"
+      PGADMIN_DEFAULT_EMAIL: "developer@egator.com"
+      PGADMIN_DEFAULT_PASSWORD: "egator"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+volumes:
+  pgadmin:
+  postgresql:
